@@ -1,0 +1,22 @@
+# Backend secrets and local environment files
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Mobile local secrets and environment files
+acad_mate/.env
+acad_mate/.env.*
+!acad_mate/.env.example
+
+# Local dependencies and build output
+backend/node_modules/
+acad_mate/.dart_tool/
+acad_mate/.flutter-plugins
+acad_mate/.flutter-plugins-dependencies
+acad_mate/build/
+
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
