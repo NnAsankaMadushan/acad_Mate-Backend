@@ -6,6 +6,8 @@ const express = require('express');
 const { connectDatabase } = require('./db');
 const { initializeFirebaseAdmin } = require('./firebase_admin');
 const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+const academicRouter = require('./routes/academic');
 
 async function main() {
   initializeFirebaseAdmin();
@@ -31,6 +33,8 @@ async function main() {
   });
 
   app.use('/users', usersRouter);
+  app.use('/auth', authRouter);
+  app.use('/academic', academicRouter);
 
   app.use((error, _req, res, _next) => {
     console.error(error);

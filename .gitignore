@@ -3,20 +3,22 @@ backend/.env
 backend/.env.*
 !backend/.env.example
 
-# Mobile local secrets and environment files
-acad_mate/.env
-acad_mate/.env.*
-!acad_mate/.env.example
-
 # Local dependencies and build output
-backend/node_modules/
-acad_mate/.dart_tool/
-acad_mate/.flutter-plugins
-acad_mate/.flutter-plugins-dependencies
-acad_mate/build/
+node_modules/
 
 # OS and editor clutter
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
+
+# Build outputs
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
