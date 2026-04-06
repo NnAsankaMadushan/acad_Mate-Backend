@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const cors = require('cors');
 const express = require('express');
+const path = require('path');
 
 const { connectDatabase } = require('./db');
 const { initializeFirebaseAdmin } = require('./firebase_admin');
@@ -24,6 +25,9 @@ async function main() {
   );
   app.use(express.json({ limit: '1mb' }));
 
+  // Serve static files from Pastpapers directory
+  app.use('/pastpapers', express.static(path.join(__dirname, 'Pastpapers')));
+
   app.get('/health', (_req, res) => {
     res.json({
       ok: true,
@@ -44,8 +48,10 @@ async function main() {
     });
   });
 
-  app.listen(port, () => {
-    console.log(`AcadMate backend listening on http://localhost:${port}`);
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`AcadMate backend listening on http://0.0.0.0:${port}`);
+    console.log(`Access locally: http://localhost:${port}`);
+    console.log(`Access from other devices: http://192.168.1.156:${port}`);
   });
 }
 

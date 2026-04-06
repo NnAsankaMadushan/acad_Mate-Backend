@@ -5,7 +5,9 @@
   "type": "commonjs",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "dev": "node --watch src/index.js",
+    "populate-past-papers": "node src/scripts/populatePastPapers.js",
+    "seed": "node src/scripts/seed.js"
   },
   "dependencies": {
     "@getbrevo/brevo": "^2.0.0-beta.4",
@@ -13,6 +15,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "firebase-admin": "^12.7.0",
-    "mongoose": "^8.9.2"
+    "mongoose": "^8.9.2",
+    "pdf-parse": "^2.4.5"
   }
 }

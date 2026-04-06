@@ -57,6 +57,25 @@ const userSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+    completedQuizIds: {
+      type: [String],
+      default: [],
+    },
+    quizResults: {
+      type: [
+        new mongoose.Schema(
+          {
+            quizId: { type: String, required: true, trim: true },
+            score: { type: Number, required: true, min: 0 },
+            total: { type: Number, required: true, min: 0 },
+            completedAt: { type: Date, required: true, default: Date.now },
+            isPerfect: { type: Boolean, required: true },
+          },
+          { _id: false },
+        ),
+      ],
+      default: [],
+    },
     isFirebaseAccount: {
       type: Boolean,
       default: true,
@@ -98,18 +117,28 @@ userSchema.statics.upsertFromFirebase = async function upsertFromFirebase(
     avatarUrl: updates.avatarUrl || firebaseUser.picture || null,
     authProvider: providerId,
     linkedProviders: Array.from(linkedProviders).filter(Boolean),
-    streakDays: Number.isFinite(updates.streakDays)
-      ? updates.streakDays
-      : 0,
-    completedQuestions: Number.isFinite(updates.completedQuestions)
-      ? updates.completedQuestions
-      : 0,
-    bookmarkedPapers: Number.isFinite(updates.bookmarkedPapers)
-      ? updates.bookmarkedPapers
-      : 0,
     isFirebaseAccount: true,
     lastSeenAt: new Date(),
   };
+
+  if (Number.isFinite(updates.streakDays)) {
+    payload.streakDays = updates.streakDays;
+  }
+  if (Number.isFinite(updates.completedQuestions)) {
+    payload.completedQuestions = updates.completedQuestions;
+  }
+  if (Number.isFinite(updates.bookmarkedPapers)) {
+    payload.bookmarkedPapers = updates.bookmarkedPapers;
+  }
+  if (Array.isArray(updates.completedQuizIds)) {
+    payload.completedQuizIds = updates.completedQuizIds
+      .filter((value) => typeof value === 'string')
+      .map((value) => value.trim())
+      .filter(Boolean);
+  }
+  if (Array.isArray(updates.quizResults)) {
+    payload.quizResults = updates.quizResults;
+  }
 
   return this.findOneAndUpdate(
     { firebaseUid: firebaseUser.uid },
